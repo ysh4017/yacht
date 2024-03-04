@@ -56,7 +56,6 @@ class Game:
         print('Game Over!')
         self.show()
         print(f'Final Score: {self.current_score}')
-        input('Press Enter to quit')
 
     def play_one_round(self):
         current_round = len(self.filled_boards) + 1
