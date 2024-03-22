@@ -4,10 +4,12 @@ from .commands import *
 from collections import OrderedDict
 from .state import State
 from .constant import BONUS_SCORE, BONUS_BOUND
+from .bot.base import BotBase
 
 
 class Game:
     state: State
+    playbot: BotBase = None
 
     def __init__(self):
         self.boards = OrderedDict(
@@ -26,6 +28,14 @@ class Game:
                 ('l', LargeStraight()),
                 ('y', Yacht()),
             ])
+
+    def register_playbot(self, playbot: BotBase):
+        self.playbot = playbot
+        playbot.connect_to_game(self)
+
+    @property
+    def is_played_by_bot(self):
+        return self.playbot is not None
 
     @property
     def has_bonus(self) -> bool:
@@ -77,9 +87,12 @@ class Game:
 
     def ask(self):
         self.show_current_state()
-        command_input = input("What will you do? (type 'help' to see commands)")
-        command_key, *args = command_input.split()
-        self.process_command(command_key, *args)
+        if self.is_played_by_bot:
+            self.playbot.play()
+        else:
+            command_input = input("What will you do? (type 'help' to see commands)")
+            command_key, *args = command_input.split()
+            self.process_command(command_key, *args)
 
     def process_command(self, command_key: str, *args):
         try:

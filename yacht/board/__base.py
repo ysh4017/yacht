@@ -3,6 +3,8 @@ from abc import ABC, abstractmethod
 
 
 class Board(ABC):
+    alias: str
+
     def __init__(self):
         self.score = 0
         self.is_filled = False

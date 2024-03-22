@@ -4,7 +4,7 @@ from .__base import Command
 class GoCommand(Command):
     aliases = ('g', 'go')
 
-    def process(self, *args) -> bool:
+    def process(self, *args, ask: bool = True) -> bool:
         board_key, = args
 
         # invalid board key
@@ -28,8 +28,14 @@ class GoCommand(Command):
         state = self.game.state
         score = board.evaluate(state)
 
+        if not ask:
+            board.fill(state)
+            print(f'{score} points on {board_name}!')
+            self.game.show()
+            return True
         # ask if user is sure
         while True:
+
             print(f'{score} points on {board_name}?')
             is_okay = input('[y]/[n]').lower().strip()
             if is_okay == 'y':

@@ -5,6 +5,7 @@ class KeepCommand(Command):
     aliases = ('k', 'keep')
 
     def process(self, *args) -> bool:
+        print(args)
         # 1 ~ 5
         dice_nos = sorted({i for item in args for i in item})
         # 0 ~ 4

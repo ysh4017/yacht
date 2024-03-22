@@ -5,6 +5,8 @@ from yacht.state import State
 
 
 class Choice(Board):
+    alias = 'c'
+
     @classmethod
     def evaluate(cls, state: State) -> float:
         return sum(state.eyes)
@@ -27,6 +29,8 @@ class ConditionalBoard(Board, ABC):
 
 
 class Poker(ConditionalBoard):
+    alias = 'p'
+
     @classmethod
     def is_condition_met(cls, state: State) -> bool:
         return any(count >= 4 for count in Counter(state.eyes).values())
@@ -37,6 +41,8 @@ class Poker(ConditionalBoard):
 
 
 class FullHouse(ConditionalBoard):
+    alias = 'f'
+
     @classmethod
     def is_condition_met(cls, state: State) -> bool:
         return set(Counter(state.eyes).values()) == {2, 3}
@@ -47,6 +53,8 @@ class FullHouse(ConditionalBoard):
 
 
 class SmallStraight(ConditionalBoard):
+    alias = 's'
+
     @classmethod
     def is_condition_met(cls, state: State) -> bool:
         return any(set(state.eyes).issuperset(s)
@@ -60,6 +68,8 @@ class SmallStraight(ConditionalBoard):
 
 
 class LargeStraight(ConditionalBoard):
+    alias = 'l'
+
     @classmethod
     def is_condition_met(cls, state: State) -> bool:
         return any(set(state.eyes).issuperset(s)
@@ -72,6 +82,8 @@ class LargeStraight(ConditionalBoard):
 
 
 class Yacht(ConditionalBoard):
+    alias = 'y'
+
     @classmethod
     def is_condition_met(cls, state: State) -> bool:
         return len(set(state.eyes)) == 1

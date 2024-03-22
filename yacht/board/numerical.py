@@ -9,6 +9,10 @@ class NumericalBoard(Board):
     def evaluate(cls, state: State) -> float:
         return sum(eye for eye in state.eyes if eye == cls.target_number)
 
+    @property
+    def alias(self) -> str:
+        return str(self.target_number)
+
 
 class Aces(NumericalBoard):
     target_number = 1
